@@ -47,5 +47,6 @@ func main() {
 
 	defer resp.Body.Close()
 	b, _ := ioutil.ReadAll(resp.Body)
+
 	fmt.Printf("Got %s from Ally\n", b)
 }
