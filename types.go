@@ -1,23 +1,34 @@
+package main
+
+import "encoding/xml"
+
+/**
+Our Response structure from ALLY
+*/
 type AllyResponse struct {
+	XMLName     xml.Name         `xml:"response"`
+	Error       string           `xml:"error"`
+	ResponseId  string           `xml:"id,attr"`
+	ElapsedTime int              `xml:"elapsedtime"`
+	Accounts    []AccountSummary `xml:"accounts>accountsummary"`
 }
 
-type AllyAccounts struct {
-	Accounts []AllyAccount
-}
-
-type AllyAccount struct {
-	Summary AccountSummary `xml:"accountsummary"`
+type AccountHoldings struct {
 }
 
 type AccountSummary struct {
-	Account     int    `xml:"accountsummary>account"`
-	AccountName string `xml:"accountsummary>accountname"`
+	XMLName     xml.Name `xml:"accountsummary"`
+	Account     int      `xml:"account"`
+	AccountName string   `xml:"accountname"`
 	Balance     AccountBalance
 	Holdings    AccountHoldings
 }
 
+type Securities struct {
+}
+
 type AccountBalance struct {
-	Account      int
+	Account      int `xml:"accounts>accountsummary>accountbalance>account"`
 	AccountValue float64
 	BuyingPower  BuyingPower
 	FedCall      int

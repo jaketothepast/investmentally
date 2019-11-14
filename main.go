@@ -1,35 +1,28 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/mrjones/oauth"
 )
 
 var endpoint string = "https://api.tradeking.com/v1/"
 
-/* My configuration structure for oauth */
-type config struct {
-	ConsumerKey    string
-	ConsumerSecret string
-	AccessToken    string
-	AccessSecret   string
-}
-
 func main() {
-	c := config{
-		ConsumerKey:    os.Getenv("CONSUMER_KEY"),
-		ConsumerSecret: os.Getenv("CONSUMER_SECRET"),
-		AccessToken:    os.Getenv("ACCESS_TOKEN"),
-		AccessSecret:   os.Getenv("ACCESS_SECRET"),
+	// Load our environment variables
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
 	}
 
 	// Set up our new oauth consumer
 	cons := oauth.NewConsumer(
-		c.ConsumerKey,
-		c.ConsumerSecret,
+		os.Getenv("CONSUMER_KEY"),
+		os.Getenv("CONSUMER_SECRET"),
 		oauth.ServiceProvider{
 			RequestTokenUrl:   "https://developers.tradeking.com/oauth/request_token",
 			AuthorizeTokenUrl: "https://developers.tradeking.com/oauth/authorize",
@@ -38,7 +31,7 @@ func main() {
 	)
 
 	// Set up our HTTP client
-	client, err := cons.MakeHttpClient(&oauth.AccessToken{Token: c.AccessToken, Secret: c.AccessSecret})
+	client, err := cons.MakeHttpClient(&oauth.AccessToken{Token: os.Getenv("ACCESS_TOKEN"), Secret: os.Getenv("ACCESS_SECRET")})
 	if err != nil {
 		panic(err)
 	}
@@ -48,5 +41,13 @@ func main() {
 	defer resp.Body.Close()
 	b, _ := ioutil.ReadAll(resp.Body)
 
-	fmt.Printf("Got %s from Ally\n", b)
+	var acctSummary AllyResponse
+	err = xml.Unmarshal(b, &acctSummary)
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%s\n", b)
+	fmt.Printf("%s\n", acctSummary.Accounts)
 }
