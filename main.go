@@ -49,5 +49,5 @@ func main() {
 	}
 
 	fmt.Printf("%s\n", b)
-	fmt.Printf("%s\n", acctSummary.Accounts[0].Balance.Money.AccruedInterest)
+	fmt.Printf("%f\n", acctSummary.Accounts[0].Balance.Securities.LongStocks)
 }

@@ -3,7 +3,7 @@ package main
 import "encoding/xml"
 
 /**
-Our Response structure from ALLY
+Response structure from Ally
 */
 type AllyResponse struct {
 	XMLName     xml.Name         `xml:"response"`
@@ -13,9 +13,15 @@ type AllyResponse struct {
 	Accounts    []AccountSummary `xml:"accounts>accountsummary"`
 }
 
+/**
+TODO: We need to work on AccountHoldings next.
+*/
 type AccountHoldings struct {
 }
 
+/**
+Account summary information
+*/
 type AccountSummary struct {
 	XMLName     xml.Name        `xml:"accountsummary"`
 	Account     int             `xml:"account"`
@@ -24,9 +30,21 @@ type AccountSummary struct {
 	Holdings    AccountHoldings `xml:"accountholdings"`
 }
 
+/**
+Different securites currently held with an account
+*/
 type Securities struct {
+	XMLName      xml.Name `xml:"securities"`
+	LongOptions  float64  `xml:"longoptions"`
+	LongStocks   float64  `xml:"longstocks"`
+	Options      float64  `xml:"options"`
+	ShortOptions float64  `xml:"shortoptions"`
+	ShortStocks  float64  `xml:"shortstocks"`
 }
 
+/**
+Various values representing account balance
+*/
 type AccountBalance struct {
 	XMLName      xml.Name    `xml:"accountbalance"`
 	Account      int         `xml:"account"`
@@ -38,6 +56,9 @@ type AccountBalance struct {
 	Securities   Securities  `xml:"securities"`
 }
 
+/**
+Various values representing buying power of this account
+*/
 type BuyingPower struct {
 	XMLName                    xml.Name `xml:"buyingpower"`
 	CashAvailableForWithdrawal float64  `xml:"cashavailableforwithdrawal"`
@@ -50,6 +71,9 @@ type BuyingPower struct {
 	Stock                      int      `xml:"stock"`
 }
 
+/**
+Various values representing money in this account
+*/
 type Money struct {
 	XMLName           xml.Name `xml:"money"`
 	AccruedInterest   float64  `xml:"accruedinterest"`
