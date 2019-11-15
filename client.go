@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/xml"
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/mrjones/oauth"
+	"io/ioutil"
 	"net/http"
 	"os"
 )
@@ -41,7 +43,28 @@ func (c *AllyApi) Initialize() {
 	}
 }
 
-func (c *AllyApi) Get(path string) (resp *http.Response, err error) {
+func (c *AllyApi) get(path string) (resp *http.Response, err error) {
 	resp, err = c.Client.Get(fmt.Sprintf("%s\\%s", endpoint, path))
+	return
+}
+
+/* The /accounts endpoint of Ally */
+func (c *AllyApi) Accounts() (resp AllyResponse, err error) {
+	b, err := c.get("accounts")
+	if err != nil {
+		return
+	}
+
+	defer b.Body.Close()
+	raw, err := ioutil.ReadAll(b.Body)
+	if err != nil {
+		return
+	}
+
+	err = xml.Unmarshal(raw, &resp)
+	if err != nil {
+		return
+	}
+
 	return
 }
