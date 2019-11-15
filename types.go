@@ -17,17 +17,59 @@ type AllyResponse struct {
 TODO: We need to work on AccountHoldings next.
 */
 type AccountHoldings struct {
+	XMLName         xml.Name  `xml:"accountholdings"`
+	Holdings        []Holding `xml:"holding"`
+	TotalSecurities float64   `xml:"totalsecurities"`
+}
+
+type HoldingDisplayData struct {
+	XMLName xml.Name `xml:"displaydata"`
+}
+
+type InstrumentData struct {
+	XMLName     xml.Name `xml:"instrument"`
+	Cfi         string   `xml:"cfi"`
+	Cusip       string   `xml:"cusip"`
+	Desc        string   `xml:"desc"`
+	Factor      int      `xml:"factor"`
+	Matdt       string   `xml:"matdt"`
+	Mult        int      `xml:"mult"`
+	PutCall     int      `xml:"putcall"`
+	SecType     string   `xml:"sectyp"`
+	StrikePrice float64  `xml:"strkpx"`
+	Symbol      string   `xml:"sym"`
+}
+
+type QuoteData struct {
+	XMLName   xml.Name `xml:"quote"`
+	Change    float64  `xml:"change"`
+	LastPrice float64  `xml:"lastprice"`
+}
+
+type Holding struct {
+	XMLName           xml.Name           `xml:"holding"`
+	AccountType       int                `xml:"accounttype"`
+	CostBasis         float64            `xml:"costbasis"`
+	DisplayData       HoldingDisplayData `xml:"displaydata"`
+	GainLoss          float64            `xml:"gainloss"`
+	Instrument        InstrumentData     `xml:"instrument"`
+	MarketValue       float64            `xml:"marketvalue"`
+	MarketValueChange float64            `xml:"marketvaluechange"`
+	Price             float64            `xml:"price"`
+	PurchasePrice     float64            `xml:"purchaseprice"`
+	Quantity          int                `xml:"qty"`
+	Quote             QuoteData          `xml:"quote"`
 }
 
 /**
 Account summary information
 */
 type AccountSummary struct {
-	XMLName     xml.Name        `xml:"accountsummary"`
-	Account     int             `xml:"account"`
-	AccountName string          `xml:"accountname"`
-	Balance     AccountBalance  `xml:"accountbalance"`
-	Holdings    AccountHoldings `xml:"accountholdings"`
+	XMLName             xml.Name        `xml:"accountsummary"`
+	Account             int             `xml:"account"`
+	AccountName         string          `xml:"accountname"`
+	AccountBalanceInfo  AccountBalance  `xml:"accountbalance"`
+	AccountHoldingsInfo AccountHoldings `xml:"accountholdings"`
 }
 
 /**
