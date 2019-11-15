@@ -49,22 +49,21 @@ func (c *AllyApi) get(path string) (resp *http.Response, err error) {
 }
 
 /* The /accounts endpoint of Ally */
-func (c *AllyApi) Accounts() (resp AllyResponse, err error) {
+func (c *AllyApi) Accounts() []AccountSummary {
 	b, err := c.get("accounts")
 	if err != nil {
-		return
 	}
 
 	defer b.Body.Close()
 	raw, err := ioutil.ReadAll(b.Body)
+	fmt.Printf("%s\n", raw)
 	if err != nil {
-		return
 	}
 
+	var resp AccountResponse
 	err = xml.Unmarshal(raw, &resp)
 	if err != nil {
-		return
 	}
 
-	return
+	return resp.Accounts.Accountsummary
 }

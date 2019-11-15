@@ -2,129 +2,104 @@ package main
 
 import "encoding/xml"
 
-/**
-Response structure from Ally
-*/
-type AllyResponse struct {
-	XMLName     xml.Name         `xml:"response"`
-	Error       string           `xml:"error"`
-	ResponseId  string           `xml:"id,attr"`
-	ElapsedTime int              `xml:"elapsedtime"`
-	Accounts    []AccountSummary `xml:"accounts>accountsummary"`
-}
-
-/**
-TODO: We need to work on AccountHoldings next.
-*/
-type AccountHoldings struct {
-	XMLName         xml.Name  `xml:"accountholdings"`
-	Holdings        []Holding `xml:"holding"`
-	TotalSecurities float64   `xml:"totalsecurities"`
-}
-
-type HoldingDisplayData struct {
-	XMLName xml.Name `xml:"displaydata"`
-}
-
-type InstrumentData struct {
-	XMLName     xml.Name `xml:"instrument"`
-	Cfi         string   `xml:"cfi"`
-	Cusip       string   `xml:"cusip"`
-	Desc        string   `xml:"desc"`
-	Factor      int      `xml:"factor"`
-	Matdt       string   `xml:"matdt"`
-	Mult        int      `xml:"mult"`
-	PutCall     int      `xml:"putcall"`
-	SecType     string   `xml:"sectyp"`
-	StrikePrice float64  `xml:"strkpx"`
-	Symbol      string   `xml:"sym"`
-}
-
-type QuoteData struct {
-	XMLName   xml.Name `xml:"quote"`
-	Change    float64  `xml:"change"`
-	LastPrice float64  `xml:"lastprice"`
-}
-
-type Holding struct {
-	XMLName           xml.Name           `xml:"holding"`
-	AccountType       int                `xml:"accounttype"`
-	CostBasis         float64            `xml:"costbasis"`
-	DisplayData       HoldingDisplayData `xml:"displaydata"`
-	GainLoss          float64            `xml:"gainloss"`
-	Instrument        InstrumentData     `xml:"instrument"`
-	MarketValue       float64            `xml:"marketvalue"`
-	MarketValueChange float64            `xml:"marketvaluechange"`
-	Price             float64            `xml:"price"`
-	PurchasePrice     float64            `xml:"purchaseprice"`
-	Quantity          int                `xml:"qty"`
-	Quote             QuoteData          `xml:"quote"`
-}
-
-/**
-Account summary information
-*/
 type AccountSummary struct {
-	XMLName             xml.Name        `xml:"accountsummary"`
-	Account             int             `xml:"account"`
-	AccountName         string          `xml:"accountname"`
-	AccountBalanceInfo  AccountBalance  `xml:"accountbalance"`
-	AccountHoldingsInfo AccountHoldings `xml:"accountholdings"`
+	XMLName        xml.Name `xml:"accountsummary"`
+	Text           string   `xml:",chardata"`
+	Account        string   `xml:"account"`
+	Accountbalance struct {
+		Text         string `xml:",chardata"`
+		Account      string `xml:"account"`
+		Accountvalue string `xml:"accountvalue"`
+		Buyingpower  struct {
+			Text                       string `xml:",chardata"`
+			Cashavailableforwithdrawal string `xml:"cashavailableforwithdrawal"`
+			Daytrading                 string `xml:"daytrading"`
+			Equitypercentage           string `xml:"equitypercentage"`
+			Options                    string `xml:"options"`
+			Soddaytrading              string `xml:"soddaytrading"`
+			Sodoptions                 string `xml:"sodoptions"`
+			Sodstock                   string `xml:"sodstock"`
+			Stock                      string `xml:"stock"`
+		} `xml:"buyingpower"`
+		Fedcall   string `xml:"fedcall"`
+		Housecall string `xml:"housecall"`
+		Money     struct {
+			Text              string `xml:",chardata"`
+			Accruedinterest   string `xml:"accruedinterest"`
+			Cash              string `xml:"cash"`
+			Cashavailable     string `xml:"cashavailable"`
+			Marginbalance     string `xml:"marginbalance"`
+			Mmf               string `xml:"mmf"`
+			Total             string `xml:"total"`
+			Uncleareddeposits string `xml:"uncleareddeposits"`
+			Unsettledfunds    string `xml:"unsettledfunds"`
+			Yield             string `xml:"yield"`
+		} `xml:"money"`
+		Securities struct {
+			Text         string `xml:",chardata"`
+			Longoptions  string `xml:"longoptions"`
+			Longstocks   string `xml:"longstocks"`
+			Options      string `xml:"options"`
+			Shortoptions string `xml:"shortoptions"`
+			Shortstocks  string `xml:"shortstocks"`
+			Stocks       string `xml:"stocks"`
+			Total        string `xml:"total"`
+		} `xml:"securities"`
+	} `xml:"accountbalance"`
+	Accountholdings struct {
+		Text        string `xml:",chardata"`
+		Displaydata struct {
+			Text            string `xml:",chardata"`
+			Totalsecurities string `xml:"totalsecurities"`
+		} `xml:"displaydata"`
+		Holding []struct {
+			Text        string `xml:",chardata"`
+			Accounttype string `xml:"accounttype"`
+			Costbasis   string `xml:"costbasis"`
+			Displaydata struct {
+				Text              string `xml:",chardata"`
+				Accounttype       string `xml:"accounttype"`
+				Assetclass        string `xml:"assetclass"`
+				Change            string `xml:"change"`
+				Costbasis         string `xml:"costbasis"`
+				Desc              string `xml:"desc"`
+				Lastprice         string `xml:"lastprice"`
+				Marketvalue       string `xml:"marketvalue"`
+				Marketvaluechange string `xml:"marketvaluechange"`
+				Qty               string `xml:"qty"`
+				Symbol            string `xml:"symbol"`
+			} `xml:"displaydata"`
+			Gainloss   string `xml:"gainloss"`
+			Instrument struct {
+				Text   string `xml:",chardata"`
+				Cusip  string `xml:"cusip"`
+				Desc   string `xml:"desc"`
+				Factor string `xml:"factor"`
+				Sectyp string `xml:"sectyp"`
+				Sym    string `xml:"sym"`
+			} `xml:"instrument"`
+			Marketvalue       string `xml:"marketvalue"`
+			Marketvaluechange string `xml:"marketvaluechange"`
+			Price             string `xml:"price"`
+			Purchaseprice     string `xml:"purchaseprice"`
+			Qty               string `xml:"qty"`
+			Quote             struct {
+				Text      string `xml:",chardata"`
+				Change    string `xml:"change"`
+				Lastprice string `xml:"lastprice"`
+			} `xml:"quote"`
+			Underlying string `xml:"underlying"`
+		} `xml:"holding"`
+		Totalsecurities string `xml:"totalsecurities"`
+	} `xml:"accountholdings"`
 }
 
-/**
-Different securites currently held with an account
-*/
-type Securities struct {
-	XMLName      xml.Name `xml:"securities"`
-	LongOptions  float64  `xml:"longoptions"`
-	LongStocks   float64  `xml:"longstocks"`
-	Options      float64  `xml:"options"`
-	ShortOptions float64  `xml:"shortoptions"`
-	ShortStocks  float64  `xml:"shortstocks"`
-}
-
-/**
-Various values representing account balance
-*/
-type AccountBalance struct {
-	XMLName      xml.Name    `xml:"accountbalance"`
-	Account      int         `xml:"account"`
-	AccountValue float64     `xml:"accountvalue"`
-	BuyingPower  BuyingPower `xml:"buyingpower"`
-	FedCall      int         `xml:"fedcall"`
-	HouseCall    int         `xml:"housecall"`
-	Money        Money       `xml:"money"`
-	Securities   Securities  `xml:"securities"`
-}
-
-/**
-Various values representing buying power of this account
-*/
-type BuyingPower struct {
-	XMLName                    xml.Name `xml:"buyingpower"`
-	CashAvailableForWithdrawal float64  `xml:"cashavailableforwithdrawal"`
-	DayTrading                 int      `xml:"daytrading"`
-	EquityPercentage           int      `xml:"equitypercentage"`
-	Options                    int      `xml:"options"`
-	SodDayTrading              int      `xml:"soddaytrading"`
-	SodOptions                 int      `xml:"sodoptions"`
-	SodStock                   int      `xml:"sodstock"`
-	Stock                      int      `xml:"stock"`
-}
-
-/**
-Various values representing money in this account
-*/
-type Money struct {
-	XMLName           xml.Name `xml:"money"`
-	AccruedInterest   float64  `xml:"accruedinterest"`
-	Cash              float64  `xml:"cash"`
-	CashAvailable     float64  `xml:"cashavailable"`
-	MarginBalance     float64  `xml:"marginbalance"`
-	Mmf               float64  `xml:"mnf"`
-	Total             float64  `xml:"total"`
-	UnclearedDeposits float64  `xml:"uncleareddeposits"`
-	UnsettledFunds    float64  `xml:"unsettledfunds"`
-	Yield             float64  `xml:"yield"`
+type AccountResponse struct {
+	XMLName  xml.Name `xml:"response"`
+	Text     string   `xml:",chardata"`
+	ID       string   `xml:"id,attr"`
+	Accounts struct {
+		Text           string           `xml:",chardata"`
+		Accountsummary []AccountSummary `xml:"accountsummary"`
+	} `xml:"accounts"`
 }
