@@ -17,45 +17,48 @@ type AccountHoldings struct {
 }
 
 type AccountSummary struct {
-	XMLName     xml.Name `xml:"accountsummary"`
-	Account     int      `xml:"account"`
-	AccountName string   `xml:"accountname"`
-	Balance     AccountBalance
-	Holdings    AccountHoldings
+	XMLName     xml.Name        `xml:"accountsummary"`
+	Account     int             `xml:"account"`
+	AccountName string          `xml:"accountname"`
+	Balance     AccountBalance  `xml:"accountbalance"`
+	Holdings    AccountHoldings `xml:"accountholdings"`
 }
 
 type Securities struct {
 }
 
 type AccountBalance struct {
-	Account      int `xml:"accounts>accountsummary>accountbalance>account"`
-	AccountValue float64
-	BuyingPower  BuyingPower
-	FedCall      int
-	HouseCall    int
-	Money        Money
-	Securities   Securities
+	XMLName      xml.Name    `xml:"accountbalance"`
+	Account      int         `xml:"account"`
+	AccountValue float64     `xml:"accountvalue"`
+	BuyingPower  BuyingPower `xml:"buyingpower"`
+	FedCall      int         `xml:"fedcall"`
+	HouseCall    int         `xml:"housecall"`
+	Money        Money       `xml:"money"`
+	Securities   Securities  `xml:"securities"`
 }
 
 type BuyingPower struct {
-	CashAvailableForWithdrawal float64
-	DayTrading                 int
-	EquityPercentage           int
-	Options                    int
-	SodDayTrading              int
-	SodOptions                 int
-	SodStock                   int
-	Stock                      int
+	XMLName                    xml.Name `xml:"buyingpower"`
+	CashAvailableForWithdrawal float64  `xml:"cashavailableforwithdrawal"`
+	DayTrading                 int      `xml:"daytrading"`
+	EquityPercentage           int      `xml:"equitypercentage"`
+	Options                    int      `xml:"options"`
+	SodDayTrading              int      `xml:"soddaytrading"`
+	SodOptions                 int      `xml:"sodoptions"`
+	SodStock                   int      `xml:"sodstock"`
+	Stock                      int      `xml:"stock"`
 }
 
 type Money struct {
-	AccruedInterest   float64
-	Cash              float64
-	CashAvailable     float64
-	MarginBalance     int
-	Mmf               int
-	Total             int
-	UnclearedDeposits float64
-	UnsettledFunds    float64
-	Yield             float64
+	XMLName           xml.Name `xml:"money"`
+	AccruedInterest   float64  `xml:"accruedinterest"`
+	Cash              float64  `xml:"cash"`
+	CashAvailable     float64  `xml:"cashavailable"`
+	MarginBalance     float64  `xml:"marginbalance"`
+	Mmf               float64  `xml:"mnf"`
+	Total             float64  `xml:"total"`
+	UnclearedDeposits float64  `xml:"uncleareddeposits"`
+	UnsettledFunds    float64  `xml:"unsettledfunds"`
+	Yield             float64  `xml:"yield"`
 }
