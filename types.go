@@ -1,49 +1,51 @@
 package main
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+)
 
 type AccountSummary struct {
 	XMLName        xml.Name `xml:"accountsummary"`
 	Text           string   `xml:",chardata"`
 	Account        string   `xml:"account"`
 	Accountbalance struct {
-		Text         string `xml:",chardata"`
-		Account      string `xml:"account"`
-		Accountvalue string `xml:"accountvalue"`
+		Text         string  `xml:",chardata"`
+		Account      string  `xml:"account"`
+		Accountvalue float64 `xml:"accountvalue"`
 		Buyingpower  struct {
-			Text                       string `xml:",chardata"`
-			Cashavailableforwithdrawal string `xml:"cashavailableforwithdrawal"`
-			Daytrading                 string `xml:"daytrading"`
-			Equitypercentage           string `xml:"equitypercentage"`
-			Options                    string `xml:"options"`
-			Soddaytrading              string `xml:"soddaytrading"`
-			Sodoptions                 string `xml:"sodoptions"`
-			Sodstock                   string `xml:"sodstock"`
-			Stock                      string `xml:"stock"`
+			Text                       string  `xml:",chardata"`
+			Cashavailableforwithdrawal float64 `xml:"cashavailableforwithdrawal"`
+			Daytrading                 float64 `xml:"daytrading"`
+			Equitypercentage           float64 `xml:"equitypercentage"`
+			Options                    float64 `xml:"options"`
+			Soddaytrading              float64 `xml:"soddaytrading"`
+			Sodoptions                 float64 `xml:"sodoptions"`
+			Sodstock                   float64 `xml:"sodstock"`
+			Stock                      float64 `xml:"stock"`
 		} `xml:"buyingpower"`
-		Fedcall   string `xml:"fedcall"`
-		Housecall string `xml:"housecall"`
+		Fedcall   float64 `xml:"fedcall"`
+		Housecall float64 `xml:"housecall"`
 		Money     struct {
-			Text              string `xml:",chardata"`
-			Accruedinterest   string `xml:"accruedinterest"`
-			Cash              string `xml:"cash"`
-			Cashavailable     string `xml:"cashavailable"`
-			Marginbalance     string `xml:"marginbalance"`
-			Mmf               string `xml:"mmf"`
-			Total             string `xml:"total"`
-			Uncleareddeposits string `xml:"uncleareddeposits"`
-			Unsettledfunds    string `xml:"unsettledfunds"`
-			Yield             string `xml:"yield"`
+			Text              string  `xml:",chardata"`
+			Accruedinterest   float64 `xml:"accruedinterest"`
+			Cash              float64 `xml:"cash"`
+			Cashavailable     float64 `xml:"cashavailable"`
+			Marginbalance     float64 `xml:"marginbalance"`
+			Mmf               float64 `xml:"mmf"`
+			Total             float64 `xml:"total"`
+			Uncleareddeposits float64 `xml:"uncleareddeposits"`
+			Unsettledfunds    float64 `xml:"unsettledfunds"`
+			Yield             float64 `xml:"yield"`
 		} `xml:"money"`
 		Securities struct {
-			Text         string `xml:",chardata"`
-			Longoptions  string `xml:"longoptions"`
-			Longstocks   string `xml:"longstocks"`
-			Options      string `xml:"options"`
-			Shortoptions string `xml:"shortoptions"`
-			Shortstocks  string `xml:"shortstocks"`
-			Stocks       string `xml:"stocks"`
-			Total        string `xml:"total"`
+			Text         string  `xml:",chardata"`
+			Longoptions  float64 `xml:"longoptions"`
+			Longstocks   float64 `xml:"longstocks"`
+			Options      float64 `xml:"options"`
+			Shortoptions float64 `xml:"shortoptions"`
+			Shortstocks  float64 `xml:"shortstocks"`
+			Stocks       float64 `xml:"stocks"`
+			Total        float64 `xml:"total"`
 		} `xml:"securities"`
 	} `xml:"accountbalance"`
 	Accountholdings struct {
@@ -69,7 +71,7 @@ type AccountSummary struct {
 				Qty               string `xml:"qty"`
 				Symbol            string `xml:"symbol"`
 			} `xml:"displaydata"`
-			Gainloss   string `xml:"gainloss"`
+			Gainloss   float64 `xml:"gainloss"`
 			Instrument struct {
 				Text   string `xml:",chardata"`
 				Cusip  string `xml:"cusip"`
@@ -78,19 +80,19 @@ type AccountSummary struct {
 				Sectyp string `xml:"sectyp"`
 				Sym    string `xml:"sym"`
 			} `xml:"instrument"`
-			Marketvalue       string `xml:"marketvalue"`
-			Marketvaluechange string `xml:"marketvaluechange"`
-			Price             string `xml:"price"`
-			Purchaseprice     string `xml:"purchaseprice"`
-			Qty               string `xml:"qty"`
+			Marketvalue       float64 `xml:"marketvalue"`
+			Marketvaluechange float64 `xml:"marketvaluechange"`
+			Price             float64 `xml:"price"`
+			Purchaseprice     float64 `xml:"purchaseprice"`
+			Qty               float64 `xml:"qty"`
 			Quote             struct {
-				Text      string `xml:",chardata"`
-				Change    string `xml:"change"`
-				Lastprice string `xml:"lastprice"`
+				Text      string  `xml:",chardata"`
+				Change    float64 `xml:"change"`
+				Lastprice float64 `xml:"lastprice"`
 			} `xml:"quote"`
 			Underlying string `xml:"underlying"`
 		} `xml:"holding"`
-		Totalsecurities string `xml:"totalsecurities"`
+		Totalsecurities float64 `xml:"totalsecurities"`
 	} `xml:"accountholdings"`
 }
 

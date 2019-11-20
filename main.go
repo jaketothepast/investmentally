@@ -7,5 +7,5 @@ func main() {
 	var api AllyApi
 	api.Initialize()
 
-	fmt.Printf("%f\n", api.Accounts()[0].Accountbalance.Money.Cash)
+	fmt.Printf("%s\n", api.Accounts()[0].Accountholdings.Displaydata.Totalsecurities)
 }

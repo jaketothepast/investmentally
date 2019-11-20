@@ -63,6 +63,7 @@ func (c *AllyApi) Accounts() []AccountSummary {
 	var resp AccountResponse
 	err = xml.Unmarshal(raw, &resp)
 	if err != nil {
+		panic(err)
 	}
 
 	return resp.Accounts.Accountsummary
