@@ -6,6 +6,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/mrjones/oauth"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 )
@@ -67,4 +68,16 @@ func (c *AllyApi) Accounts() []AccountSummary {
 	}
 
 	return resp.Accounts.Accountsummary
+}
+
+func (c *AllyApi) AccountBalances() (balances []AccountBalance) {
+	b, err := c.get("accounts/balances")
+	if err != nil {
+		log.Fatal("Could not get account balances")
+		return
+	}
+	defer b.Body.Close()
+
+	var resp AccountBalanceResponse
+
 }

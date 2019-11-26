@@ -105,3 +105,16 @@ type AccountResponse struct {
 		Accountsummary []AccountSummary `xml:"accountsummary"`
 	} `xml:"accounts"`
 }
+
+type AccountBalance struct {
+	XMLName      xml.Name `xml:"accountbalance"`
+	Account      int      `xml:"account"`
+	AccountName  string   `xml:"accountname"`
+	AccountValue float64  `xml:"accountvalue"`
+}
+
+type AccountBalanceResponse struct {
+	XMLName         xml.Name         `xml:"response"`
+	AccountBalances []AccountBalance `xml:"accountbalance"`
+	TotalBalance    float64          `xml:"totalbalance>accountvalue"`
+}
