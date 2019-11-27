@@ -79,8 +79,20 @@ func (c *AllyApi) AccountBalances() (balances []AccountBalance) {
 	return resp.AccountBalances
 }
 
-func (c *AllyApi) AccountDetail(accountId int) AccountDetailResponse {
+func (c *AllyApi) AccountDetail(accountId string) AccountDetailResponse {
 	var resp AccountDetailResponse
-	_ = xml.Unmarshal(c.getAndRead(fmt.Sprintf("accounts/%d", accountId)), &resp)
+	_ = xml.Unmarshal(c.getAndRead(fmt.Sprintf("accounts/%s", accountId)), &resp)
+	return resp
+}
+
+func (c *AllyApi) AccountBalance(accountId string) AccountDetailBalanceResponse {
+	var resp AccountDetailBalanceResponse
+	_ = xml.Unmarshal(c.getAndRead(fmt.Sprintf("accounts/%s/balances", accountId)), &resp)
+	return resp
+}
+
+func (c *AllyApi) AccountHoldings(accountId string) AccountDetailHoldingsResponse {
+	var resp AccountDetailHoldingsResponse
+	_ = xml.Unmarshal(c.getAndRead(fmt.Sprintf("accounts/%s/holdings", accountId)), &resp)
 	return resp
 }

@@ -128,3 +128,13 @@ type AccountDetailResponse struct {
 	AccountBalance  Accountbalance  `xml:"accountbalance"`
 	AccountHoldings Accountholdings `xml:"accountholdings"`
 }
+
+type AccountDetailBalanceResponse struct {
+	XMLName        xml.Name       `xml:"response"`
+	AccountBalance Accountbalance `xml:"accountbalance"`
+}
+
+type AccountDetailHoldingsResponse struct {
+	XMLName         xml.Name        `xml:"response"`
+	AccountHoldings Accountholdings `xml:"accountholdings"`
+}
