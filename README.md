@@ -6,10 +6,17 @@ This project is intended to be an API wrapper for the Ally Invest API written in
 
 The different endpoints that are currently covered by this API
 
-### /accounts
+/accounts
 
-Get all account information for a user.
+/accounts/balances
 
+/accounts/:id
+
+/accounts/:id/balances
+
+/accounts/:id/history
+
+/accounts/:id/holdings
 ## Running This Project
 
 For now, just build this directory and run the executable.

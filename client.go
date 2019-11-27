@@ -96,3 +96,9 @@ func (c *AllyApi) AccountHoldings(accountId string) AccountDetailHoldingsRespons
 	_ = xml.Unmarshal(c.getAndRead(fmt.Sprintf("accounts/%s/holdings", accountId)), &resp)
 	return resp
 }
+
+func (c *AllyApi) AccountHistory(accountId string) AccountHistoryResponse {
+	var resp AccountHistoryResponse
+	_ = xml.Unmarshal(c.getAndRead(fmt.Sprintf("accounts/%s/history", accountId)), &resp)
+	return resp
+}

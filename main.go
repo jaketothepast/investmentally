@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 func main() {
@@ -10,7 +9,6 @@ func main() {
 	var api AllyApi
 	api.Initialize()
 
-	acctId, _ := strconv.Atoi(api.Accounts()[0].Account)
-
-	fmt.Printf("AccountDetail: %s\n", api.AccountDetail(acctId).AccountHoldings.Holding[0].Displaydata.Change)
+	accountId := api.Accounts()[0].Account
+	fmt.Printf("AccountDetail: %s\n", api.AccountHistory(accountId).Transactions[0].Detail.SettlementDate)
 }

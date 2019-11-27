@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/xml"
+	"time"
 )
 
 type Accountbalance struct {
@@ -137,4 +138,44 @@ type AccountDetailBalanceResponse struct {
 type AccountDetailHoldingsResponse struct {
 	XMLName         xml.Name        `xml:"response"`
 	AccountHoldings Accountholdings `xml:"accountholdings"`
+}
+
+type SecurityDetail struct {
+	XMLName      xml.Name `xml:"security"`
+	Cusip        string   `xml:"cusip"`
+	ID           string   `xml:"id"`
+	SecurityType string   `xml:"sectyp"`
+	Symbol       string   `xml:"symbol"`
+}
+
+type TransactionDetail struct {
+	XMLName        xml.Name       `xml:"transaction"`
+	AccountType    int            `xml:"accounttype"`
+	Commission     float64        `xml:"commission"`
+	Description    string         `xml:"description"`
+	Fee            float64        `xml:"fee"`
+	Price          float64        `xml:"price"`
+	Quantity       float64        `xml:"quantity"`
+	SecurityFee    float64        `xml:"secfee"`
+	Security       SecurityDetail `xml:"security"`
+	SettlementDate time.Time      `xml:"settlementdate"`
+	Side           int            `xml:"side"`
+	Source         string         `xml:"source"`
+	TradeDate      time.Time      `xml:"tradedate"`
+	TransactionID  int            `xml:"transactionid"`
+}
+
+type Transaction struct {
+	XMLName     xml.Name          `xml:"transaction"`
+	Activity    string            `xml:"activity"`
+	Amount      float64           `xml:"amount"`
+	Date        time.Time         `xml:"date"`
+	Description string            `xml:"desc"`
+	Symbol      string            `xml:"symbol"`
+	Detail      TransactionDetail `xml:transaction>transaction`
+}
+
+type AccountHistoryResponse struct {
+	XMLName      xml.Name      `xml:"response"`
+	Transactions []Transaction `xml:"transactions>transaction"`
 }
