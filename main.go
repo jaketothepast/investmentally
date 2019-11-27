@@ -1,11 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func main() {
 	// Load our environment variables
 	var api AllyApi
 	api.Initialize()
 
-	fmt.Printf("%s\n", api.Accounts()[0].Accountholdings.Displaydata.Totalsecurities)
+	acctId, _ := strconv.Atoi(api.Accounts()[0].Account)
+
+	fmt.Printf("AccountDetail: %s\n", api.AccountDetail(acctId).AccountHoldings.Holding[0].Displaydata.Change)
 }

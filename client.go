@@ -46,38 +46,41 @@ func (c *AllyApi) Initialize() {
 
 func (c *AllyApi) get(path string) (resp *http.Response, err error) {
 	resp, err = c.Client.Get(fmt.Sprintf("%s\\%s", endpoint, path))
-	return
+	return resp, err
+}
+
+//GetAndMarshal call GET on the path, and marshal the resopnse to interface
+// type
+func (c *AllyApi) getAndRead(path string) []byte {
+	resp, err := c.get(path)
+	if err != nil {
+		log.Fatal("Could not make request")
+	}
+
+	defer resp.Body.Close()
+	raw, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal("Could not read body!")
+		return nil
+	}
+	return raw
 }
 
 /* The /accounts endpoint of Ally */
 func (c *AllyApi) Accounts() []AccountSummary {
-	b, err := c.get("accounts")
-	if err != nil {
-	}
-
-	defer b.Body.Close()
-	raw, err := ioutil.ReadAll(b.Body)
-	fmt.Printf("%s\n", raw)
-	if err != nil {
-	}
-
 	var resp AccountResponse
-	err = xml.Unmarshal(raw, &resp)
-	if err != nil {
-		panic(err)
-	}
-
+	_ = xml.Unmarshal(c.getAndRead("accounts"), &resp)
 	return resp.Accounts.Accountsummary
 }
 
 func (c *AllyApi) AccountBalances() (balances []AccountBalance) {
-	b, err := c.get("accounts/balances")
-	if err != nil {
-		log.Fatal("Could not get account balances")
-		return
-	}
-	defer b.Body.Close()
-
 	var resp AccountBalanceResponse
+	_ = xml.Unmarshal(c.getAndRead("accounts/balances"), &resp)
+	return resp.AccountBalances
+}
 
+func (c *AllyApi) AccountDetail(accountId int) AccountDetailResponse {
+	var resp AccountDetailResponse
+	_ = xml.Unmarshal(c.getAndRead(fmt.Sprintf("accounts/%d", accountId)), &resp)
+	return resp
 }
