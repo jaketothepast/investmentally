@@ -24,7 +24,7 @@
 #   go-tests = true
 #   unused-packages = true
 
-
+required = ["github.com/joho/godotenv", "github.com/mrjones/oauth"]
 [prune]
   go-tests = true
   unused-packages = true
